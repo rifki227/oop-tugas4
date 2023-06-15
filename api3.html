@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exchange Rate Viewer</title>
+</head>
+<body>
+  <h1>Exchange Rate Viewer</h1>
+  <table id="exchange-rate-table">
+    <thead>
+      <tr>
+        <th>Currency</th>
+        <th>Exchange Rate</th>
+      </tr>
+    </thead>
+    <tbody id="exchange-rate-data">
+    </tbody>
+  </table>
+
+  <script>
+    const url = 'https://api.exchangerate-api.com/v4/latest/IDR';
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const rates = data.rates;
+        const exchangeRateData = document.getElementById('exchange-rate-data');
+
+        for (const currency in rates) {
+          const exchangeRateRow = document.createElement('tr');
+
+          const currencyCell = document.createElement('td');
+          currencyCell.textContent = currency;
+
+          const exchangeRateCell = document.createElement('td');
+          exchangeRateCell.textContent = rates[currency];
+
+          exchangeRateRow.appendChild(currencyCell);
+          exchangeRateRow.appendChild(exchangeRateCell);
+
+          exchangeRateData.appendChild(exchangeRateRow);
+        }
+      })
+      .catch(error => console.log(error));
+  </script>
+</body>
+</html>
