@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random User Viewer</title>
+  <style>
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Random User Viewer</h1>
+  <div id="user-card-container"></div>
+
+  <script>
+    const url = 'https://randomuser.me/api/';
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const user = data.results[0].name;
+        const picture = data.results[0].picture.large;
+
+        const userCardContainer = document.getElementById('user-card-container');
+
+        const userCard = document.createElement('div');
+        userCard.classList.add('user-card');
+
+        const userImage = document.createElement('img');
+        userImage.src = picture;
+        userImage.alt = 'User Picture';
+
+        const userName = document.createElement('h2');
+        userName.textContent = `${user.title} ${user.first} ${user.last}`;
+
+        userCard.appendChild(userImage);
+        userCard.appendChild(userName);
+
+        userCardContainer.appendChild(userCard);
+      })
+      .catch(error => console.log(error));
+  </script>
+</body>
+</html>
